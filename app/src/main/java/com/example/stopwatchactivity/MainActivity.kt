@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     var running = false
     var seconds = 0
+    var wasRunning = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         if(savedInstanceState != null) {
             seconds = savedInstanceState.getInt("seconds")
             running = savedInstanceState.getBoolean("running")
+            wasRunning = savedInstanceState.getBoolean("wasRunning")
         }
         createAndRunTimer()
     }
@@ -30,6 +32,21 @@ class MainActivity : AppCompatActivity() {
 
         savedInstanceState.putInt("seconds", seconds)
         savedInstanceState.putBoolean("running", running)
+        savedInstanceState.putBoolean("wasRunning", wasRunning)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        wasRunning = running
+        running = false
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        if(wasRunning)
+            running = true
     }
 
     fun startClicked(view: View) {
