@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -17,7 +18,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if(savedInstanceState != null) {
+            seconds = savedInstanceState.getInt("seconds")
+            running = savedInstanceState.getBoolean("running")
+        }
         createAndRunTimer()
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+
+        savedInstanceState.putInt("seconds", seconds)
+        savedInstanceState.putBoolean("running", running)
     }
 
     fun startClicked(view: View) {
